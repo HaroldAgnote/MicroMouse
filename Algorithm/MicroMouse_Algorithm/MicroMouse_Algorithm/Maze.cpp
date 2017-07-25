@@ -37,6 +37,12 @@ void Maze::Initialize()
     CalculateDistance();
 }
 
+Cell * Maze::getCell(Coord cellCoord)
+{
+    return &cells[cellCoord.GetRow()][cellCoord.GetCol()];
+}
+
+
 void Maze::CalculateDistance()
 {
     // Objective is (7, 7), (7, 8), (8, 7), or (8, 8).
@@ -86,6 +92,30 @@ void Maze::PrintDistance()
             }
             else {
                 printf(" %d ", cells[i][j].getDistance());
+            }
+        }
+        printf("\n");
+    }
+}
+
+void Maze::PrintVisited(Coord mousePosition)
+{
+    for (int i = 0; i < 16; i++) {
+        for (int j = 0; j < 16; j++) {
+            if (cells[i][j].isVisited()) {
+                printf("V ");
+            }
+            else if (cells[i][j].isWall())
+            {
+                printf("W ");
+            }
+            else if (i == mousePosition.GetRow() && j == mousePosition.GetCol())
+            {
+                printf("M ");
+            }
+            else
+            {
+                printf("N ");
             }
         }
         printf("\n");

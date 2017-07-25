@@ -21,8 +21,14 @@ private:
     void SetUpMaze();
 
 public:
+    Mouse();
     Mouse(unsigned char);
+    
     const Coord GetPosition();
+    Maze * GetMaze();
+
+    bool isNextTo(Coord);
+
     void SetPosition(unsigned char, unsigned char);
     void MoveToCell(Coord);
     void MoveUp();

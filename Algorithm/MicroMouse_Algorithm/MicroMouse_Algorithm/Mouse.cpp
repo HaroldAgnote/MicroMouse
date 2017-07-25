@@ -1,6 +1,12 @@
 #include "Mouse.h"
 #include "Coord.h"
 
+
+Mouse::Mouse() : mBoardSize(16), mPosition(15, 1)
+{
+    
+}
+
 Mouse::Mouse(unsigned char boardSize) : mBoardSize(boardSize), mPosition{ { 15 },{ 1 } } {
 
 }
@@ -8,6 +14,12 @@ Mouse::Mouse(unsigned char boardSize) : mBoardSize(boardSize), mPosition{ { 15 }
 const Coord Mouse::GetPosition() {
     return mPosition;
 }
+
+Maze* Mouse::GetMaze()
+{
+    return & completeMaze;
+}
+
 
 void Mouse::SetPosition(unsigned char x, unsigned char y) {
 
@@ -34,13 +46,25 @@ bool Mouse::InBounds(unsigned char x, unsigned char y)
     return false;
 }
 
+bool Mouse::isNextTo(Coord cell)
+{
+    if (cell.GetRow() == (mPosition.GetRow()+ 1) || cell.GetRow() == (mPosition.GetRow() - 1))
+    {
+        if (cell.GetCol() == (mPosition.GetCol() + 1) || cell.GetCol() == (mPosition.GetCol() - 1))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Mouse::MoveToCell(Coord cell)
 {
     if (cell.GetCol() < mPosition.GetCol())
     {
         MoveLeft();
     }
-    else
+    else if (cell.GetCol() > mPosition.GetCol())
     {
         MoveRight();
     }
@@ -48,7 +72,7 @@ void Mouse::MoveToCell(Coord cell)
     {
         MoveUp();
     }
-    else
+    else if (cell.GetRow() > mPosition.GetRow())
     {
         MoveDown();
     }

@@ -75,6 +75,7 @@ const TData& Queue<TData>::dequeue()
     mCount--;
 
     TData element = elements[mHead];
+
     mHead = (mHead + 1) % _maxArraySize;
     return element;
 }

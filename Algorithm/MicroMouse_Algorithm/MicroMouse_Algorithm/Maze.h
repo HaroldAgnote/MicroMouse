@@ -3,6 +3,8 @@
 
 #include "Cell.h"
 
+class Coord;
+
 class Maze
 {
 private:
@@ -14,11 +16,14 @@ public:
 
     void Initialize();
 
+    Cell * getCell(Coord);
+
     void CalculateDistance();
     int CalculateManhattanDistance(int, int, int, int);
     int CalculateMinimum(int, int, int, int);
 
     void PrintDistance();
+    void PrintVisited(Coord);
 };
 
 #endif

@@ -29,37 +29,31 @@ unsigned char Coord::GetCol() const {
 }
 
 bool Coord::MoveUp() {
-    if (InBounds(row - 1, col)) {
-        row -= 1;
-        return true;
-    }
+    row -= 1;
     return false;
 }
 
 bool Coord::MoveDown() {
-    if (InBounds(row + 1, col)) {
-        row += 1;
-        return true;
-    }
+    row += 1;
     return false;
 }
 
 bool Coord::MoveLeft() {
-    if (InBounds(row, col - 1)) {
-        col -= 1;
-        return true;
-    }
+    col -= 1;
     return false;
 }
 
 bool Coord::MoveRight() {
-    if (InBounds(row, col + 1)) {
-        col += 1;
-        return true;
-    }
+    col += 1;
     return false;
 }
 
-bool Coord::InBounds(unsigned char row, unsigned char col) {
+bool Coord::operator !=(const Coord & coord) const
+{
+    return !(row == coord.row && col == coord.col);
+}
+
+
+bool Coord::isInBounds() {
     return row >= 0 && row < 16 && col >= 0 && col < 16; // Board size is 16
 }

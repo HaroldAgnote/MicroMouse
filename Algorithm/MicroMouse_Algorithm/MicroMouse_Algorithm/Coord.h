@@ -7,8 +7,6 @@ private:
     unsigned char row;
     unsigned char col;
 
-    bool InBounds(unsigned char, unsigned char);
-
 public:
     Coord();
     Coord(unsigned char, unsigned char);
@@ -24,6 +22,10 @@ public:
     bool MoveDown();
     bool MoveLeft();
     bool MoveRight();
+
+    bool isInBounds();
+
+    bool operator!=(const Coord&) const;
 
     /*Coord& operator=(const Coord &rhs) {
     row = rhs.row;

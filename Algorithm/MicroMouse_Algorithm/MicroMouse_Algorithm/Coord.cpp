@@ -13,7 +13,7 @@ Coord::~Coord() {
 }
 
 void Coord::SetRow(unsigned char row) {
-    row = row;
+    row= row;
 }
 
 void Coord::SetCol(unsigned char col) {

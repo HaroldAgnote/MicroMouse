@@ -26,8 +26,8 @@ public:
     bool MoveRight();
 
     /*Coord& operator=(const Coord &rhs) {
-        row = rhs.row;
-        col = rhs.col;
+    row = rhs.row;
+    col = rhs.col;
     }*/
 };
 

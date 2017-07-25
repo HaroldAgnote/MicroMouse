@@ -19,8 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E4BD4846-15A2-49E1-93F3-4407F2F1AF99}</ProjectGuid>
-    <RootNamespace>MicroMouse</RootNamespace>
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{A594A242-5CF3-47B5-A1E2-970EE770AE2F}</ProjectGuid>
+    <RootNamespace>MicroMouse_Algorithm</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -110,7 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Block.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="Coord.h" />
     <ClInclude Include="Maze.h" />
     <ClInclude Include="Mouse.h" />
@@ -118,12 +119,10 @@
     <ClInclude Include="Stack.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Block.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="Coord.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Maze.cpp" />
-    <ClCompile Include="Mouse.cpp" />
-    <ClCompile Include="Queue.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

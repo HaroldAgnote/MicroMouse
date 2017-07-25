@@ -13,9 +13,9 @@ private:
 public:
     Stack<TData>() : _size(0), _maxArraySize(16) { // Constructor
         elements = new TData[_maxArraySize]; // Initial size of 16.
-        /*for (int i = 0; i < _maxArraySize; i++) {
-            elements[i] = NULL;
-        }*/
+                                             /*for (int i = 0; i < _maxArraySize; i++) {
+                                             elements[i] = NULL;
+                                             }*/
     }
     ~Stack<TData>() { // Destructor
         delete[] elements;

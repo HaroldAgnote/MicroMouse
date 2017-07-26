@@ -107,7 +107,11 @@ void floodFill()
 
         while (!neighbors.empty())
         {
-            cellsToCheck.push(neighbors.top());
+            Coord nextCell = neighbors.top();
+            if (!maze->getCell(nextCell)->isWall())
+            {
+                cellsToCheck.push(neighbors.top());
+            }
             neighbors.pop();
         }
 

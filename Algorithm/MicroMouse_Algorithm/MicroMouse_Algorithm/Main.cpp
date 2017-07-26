@@ -19,6 +19,7 @@ int main()
     //maze.PrintDistance();
     maze.PrintVisited(start);
 
+	// Doesn't work for me here
     system("pause");
 
     floodFill();

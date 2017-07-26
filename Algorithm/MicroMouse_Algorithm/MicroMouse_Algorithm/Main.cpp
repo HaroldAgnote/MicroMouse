@@ -13,12 +13,16 @@ void floodFill();
 
 int main()
 {
-    Maze maze;
-    maze.Initialize();
-    maze.PrintDistance();
+    Coord start(15, 1);
+
+    Maze maze("Maze.txt");
+    //maze.PrintDistance();
+    maze.PrintVisited(start);
+
+    system("pause");
 
     floodFill();
-    cout << endl << endl << endl;
+    cout << "Flood Fill Complete!" << endl;
 
     system("pause");
     return 0;
@@ -27,13 +31,17 @@ int main()
 
 void floodFill()
 {
+    long DELAY = 250;
+
+    bool valid = false;
+
     Coord current, start(15,1);
     Cell * currentCell = NULL;
 
-    queue <Coord> cellsToCheck;
+    stack <Coord> cellsToCheck;
     stack <Coord> previousCells;
 
-    Mouse mouse;
+    Mouse mouse("Maze.txt");
 
     cellsToCheck.push(mouse.GetPosition());
 
@@ -43,10 +51,27 @@ void floodFill()
     {
         do
         {
-            current = cellsToCheck.front();
+            valid = false;
+
+            if (cellsToCheck.empty())
+            {
+                return;
+            }
+
+            current = cellsToCheck.top();
             cellsToCheck.pop();
+
             currentCell = maze->getCell(current);
-        } while (cellsToCheck.size() > 1 && (currentCell != NULL && (currentCell->isWall() || currentCell->isVisited())) || current != start && !current.isInBounds());
+
+            if (current.isInBounds())
+            {
+                if (!currentCell->isVisited() && !currentCell->isWall())
+                {
+                    valid = true;
+                }
+            }
+
+        } while (!valid);
         
         while (current != mouse.GetPosition())
         {
@@ -60,33 +85,36 @@ void floodFill()
                 mouse.MoveToCell(prev);
                 previousCells.pop();
             }
+            maze->PrintVisited(mouse.GetPosition());
+            this_thread::sleep_for(chrono::milliseconds(DELAY));
         }
 
         currentCell->setVisited(true);
         
         // Queue <Coord> neighbors = getNeighbors(current);
 
-        queue <Coord> neighbors;
+        stack <Coord> neighbors;
         Coord up(current.GetRow() - 1, current.GetCol());
         Coord down(current.GetRow() + 1, current.GetCol());
         Coord left(current.GetRow(), current.GetCol() - 1);
         Coord right(current.GetRow(), current.GetCol() + 1);
 
-        neighbors.push(up);
+        
         neighbors.push(down);
         neighbors.push(left);
         neighbors.push(right);
+        neighbors.push(up);
 
         while (!neighbors.empty())
         {
-            cellsToCheck.push(neighbors.front());
+            cellsToCheck.push(neighbors.top());
             neighbors.pop();
         }
 
         previousCells.push(current);
 
         maze->PrintVisited(mouse.GetPosition());
-        this_thread::sleep_for(chrono::milliseconds(100));
+        this_thread::sleep_for(chrono::milliseconds(DELAY));
     }
     while (!cellsToCheck.empty());
 }

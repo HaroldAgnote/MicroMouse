@@ -7,6 +7,11 @@ Mouse::Mouse() : mBoardSize(16), mPosition(15, 1)
     
 }
 
+Mouse::Mouse(string fileName) : mBoardSize(16), mPosition(15, 1), completeMaze(fileName)
+{
+    
+}
+
 Mouse::Mouse(unsigned char boardSize) : mBoardSize(boardSize), mPosition{ { 15 },{ 1 } } {
 
 }
@@ -48,9 +53,9 @@ bool Mouse::InBounds(unsigned char x, unsigned char y)
 
 bool Mouse::isNextTo(Coord cell)
 {
-    if (cell.GetRow() == (mPosition.GetRow()+ 1) || cell.GetRow() == (mPosition.GetRow() - 1))
+    if (cell.GetRow() == (mPosition.GetRow()+ 1) || cell.GetRow() == (mPosition.GetRow() - 1) || cell.GetRow() == mPosition.GetRow())
     {
-        if (cell.GetCol() == (mPosition.GetCol() + 1) || cell.GetCol() == (mPosition.GetCol() - 1))
+        if (cell.GetCol() == (mPosition.GetCol() + 1) || cell.GetCol() == (mPosition.GetCol() - 1) || cell.GetCol() == mPosition.GetCol())
         {
             return true;
         }
@@ -63,18 +68,22 @@ void Mouse::MoveToCell(Coord cell)
     if (cell.GetCol() < mPosition.GetCol())
     {
         MoveLeft();
+        return;
     }
-    else if (cell.GetCol() > mPosition.GetCol())
+    if (cell.GetCol() > mPosition.GetCol())
     {
         MoveRight();
+        return;
     }
     if (cell.GetRow() < mPosition.GetRow())
     {
         MoveUp();
+        return;
     }
-    else if (cell.GetRow() > mPosition.GetRow())
+    if (cell.GetRow() > mPosition.GetRow())
     {
         MoveDown();
+        return;
     }
 }
 

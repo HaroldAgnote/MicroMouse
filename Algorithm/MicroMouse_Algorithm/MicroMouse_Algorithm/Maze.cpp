@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include "Maze.h"
 #include "Queue.h"
@@ -9,6 +10,47 @@ using namespace std;
 Maze::Maze()
 {
     Initialize();
+}
+
+Maze::Maze(string fileName)
+{
+    ifstream myFile;
+    myFile.open(fileName);
+    string LINE;
+
+    for (int i = 0; i < 16; i++)
+    {
+        getline(myFile, LINE);
+        for (int j = 0; j < 16; j++)
+        {
+            char c = LINE.at(j);
+            switch (c)
+            {
+            case '*': cells[i][j].setWall(true);
+                break;
+            case 'o': cells[i][j].setWall(false);
+                break;
+            case 'g': cells[i][j].setWall(false);
+                break;
+            }
+            if (i == 0 || i == 15 || j == 0 || j == 15)
+            {
+                cells[i][j].setDistance(-1);
+            }
+            else if ((i == 7 || i == 8) && (j == 7 || j == 8))
+            {
+                // Center of maze.
+                cells[i][j].setDistance(0);
+            }
+            else
+            {
+                // Other areas of maze.
+                cells[i][j].setDistance(-1);
+            }
+            cells[i][j].setVisited(false);
+        }
+    }
+    myFile.close();
 }
 
 void Maze::Initialize()
@@ -34,6 +76,7 @@ void Maze::Initialize()
             cells[i][j].setVisited(false);
         }
     }
+    cells[15][1].setWall(false);
     CalculateDistance();
 }
 
@@ -100,18 +143,19 @@ void Maze::PrintDistance()
 
 void Maze::PrintVisited(Coord mousePosition)
 {
+    printf("\n- - - - - - - - - - - - - - - -\n");
     for (int i = 0; i < 16; i++) {
         for (int j = 0; j < 16; j++) {
-            if (cells[i][j].isVisited()) {
-                printf("V ");
+            if (i == mousePosition.GetRow() && j == mousePosition.GetCol())
+            {
+                printf("M ");
+            }
+            else if (cells[i][j].isVisited()) {
+                printf("* ");
             }
             else if (cells[i][j].isWall())
             {
                 printf("W ");
-            }
-            else if (i == mousePosition.GetRow() && j == mousePosition.GetCol())
-            {
-                printf("M ");
             }
             else
             {
@@ -120,4 +164,5 @@ void Maze::PrintVisited(Coord mousePosition)
         }
         printf("\n");
     }
+    printf("- - - - - - - - - - - - - - - -\n");
 }

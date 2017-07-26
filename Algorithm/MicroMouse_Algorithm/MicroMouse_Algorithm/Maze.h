@@ -1,7 +1,10 @@
 #ifndef MAZE_H
 #define MAZE_H
 
+#include <string>
 #include "Cell.h"
+
+using namespace std;
 
 class Coord;
 
@@ -13,6 +16,7 @@ private:
 
 public:
     Maze();
+    Maze(string);
 
     void Initialize();
 

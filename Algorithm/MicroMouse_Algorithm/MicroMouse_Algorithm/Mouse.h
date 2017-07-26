@@ -22,6 +22,7 @@ private:
 
 public:
     Mouse();
+    Mouse(string);
     Mouse(unsigned char);
     
     const Coord GetPosition();

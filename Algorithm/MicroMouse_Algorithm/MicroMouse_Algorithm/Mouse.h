@@ -15,7 +15,12 @@ private:
     Maze completeMaze; // Internal representation of the maze
 
     unsigned char mBoardSize;
+
+	/*
+	 * Mouse's position
+	 */
     Coord mPosition;
+
     bool InBounds(Coord);
     bool InBounds(unsigned char, unsigned char);
     void SetUpMaze();

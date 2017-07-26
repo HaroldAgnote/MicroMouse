@@ -31,7 +31,7 @@ int main()
 
 void floodFill()
 {
-    long DELAY = 250;
+    long DELAY = 100;
 
     bool valid = false;
 
@@ -41,7 +41,7 @@ void floodFill()
     stack <Coord> cellsToCheck;
     stack <Coord> previousCells;
 
-    Mouse mouse("Maze.txt");
+    Mouse mouse;
 
     cellsToCheck.push(mouse.GetPosition());
 
@@ -53,11 +53,13 @@ void floodFill()
         {
             valid = false;
 
+			// Flood Fill Complete
             if (cellsToCheck.empty())
             {
                 return;
             }
 
+			// Get the next cell to explore
             current = cellsToCheck.top();
             cellsToCheck.pop();
 
@@ -67,20 +69,27 @@ void floodFill()
             {
                 if (!currentCell->isVisited() && !currentCell->isWall())
                 {
+					// A Cell is invalid if it's:
+					// - Out of Bounds
+					// - Has been Visited
+					// - A Wall
                     valid = true;
                 }
             }
 
         } while (!valid);
         
+		// While loop corrects position of Mouse until it's on the next explored Point
         while (current != mouse.GetPosition())
         {
             if (mouse.isNextTo(current))
             {
+				// Move Mouse towards next explored point if adjacent
                 mouse.MoveToCell(current);
             }
             else
             {
+				// Backtrack mouse to the last cell it visited
                 Coord prev = previousCells.top();
                 mouse.MoveToCell(prev);
                 previousCells.pop();
@@ -89,10 +98,10 @@ void floodFill()
             this_thread::sleep_for(chrono::milliseconds(DELAY));
         }
 
+		// Mark cell as visited
         currentCell->setVisited(true);
-        
-        // Queue <Coord> neighbors = getNeighbors(current);
 
+		// Acquire neighbors
         stack <Coord> neighbors;
         Coord up(current.GetRow() - 1, current.GetCol());
         Coord down(current.GetRow() + 1, current.GetCol());
@@ -107,6 +116,7 @@ void floodFill()
 
         while (!neighbors.empty())
         {
+			// Add neighbors so long as they're not a wall
             Coord nextCell = neighbors.top();
             if (!maze->getCell(nextCell)->isWall())
             {
@@ -115,6 +125,7 @@ void floodFill()
             neighbors.pop();
         }
 
+		// Mark current position as last cell visited by Mouse
         previousCells.push(current);
 
         maze->PrintVisited(mouse.GetPosition());

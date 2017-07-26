@@ -7,11 +7,17 @@
 #include "Cell.h"
 using namespace std;
 
+/*
+ * Create empty maze
+ */
 Maze::Maze()
 {
     Initialize();
 }
 
+/*
+ * Create maze generated from reading a text file
+ */
 Maze::Maze(string fileName)
 {
     ifstream myFile;
@@ -80,6 +86,9 @@ void Maze::Initialize()
     CalculateDistance();
 }
 
+/*
+ * Get a Cell given a set of coordinates
+ */
 Cell * Maze::getCell(Coord cellCoord)
 {
     return &cells[cellCoord.GetRow()][cellCoord.GetCol()];
@@ -148,17 +157,22 @@ void Maze::PrintVisited(Coord mousePosition)
         for (int j = 0; j < 16; j++) {
             if (i == mousePosition.GetRow() && j == mousePosition.GetCol())
             {
+				// Print mouse position
                 printf("M ");
             }
-            else if (cells[i][j].isVisited()) {
+            else if (cells[i][j].isVisited())
+			{
+				// Print a visited cell
                 printf("* ");
             }
             else if (cells[i][j].isWall())
             {
+				// Print a Wall
                 printf("W ");
             }
             else
             {
+				// Print unvisited/unexplored square
                 printf("N ");
             }
         }

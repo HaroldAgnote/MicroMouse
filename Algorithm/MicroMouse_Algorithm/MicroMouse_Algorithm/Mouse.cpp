@@ -4,7 +4,7 @@
 
 Mouse::Mouse() : mBoardSize(16), mPosition(15, 1)
 {
-    
+	SetUpMaze();
 }
 
 Mouse::Mouse(string fileName) : mBoardSize(16), mPosition(15, 1), completeMaze(fileName)
@@ -114,10 +114,10 @@ void Mouse::MoveRight() {
 void Mouse::SetUpMaze() {
     // Modify walls of maze here
     completeMaze.Initialize();
-
 }
 
 void Mouse::ReadCell(Coord cellCoord, Cell cell)
 {
-    
+	completeMaze.getCell(cellCoord)->setVisited(cell.isVisited());
+	completeMaze.getCell(cellCoord)->setVisited(cell.isWall());
 }

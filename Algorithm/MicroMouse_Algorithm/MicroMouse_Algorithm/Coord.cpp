@@ -54,6 +54,7 @@ bool Coord::operator !=(const Coord & coord) const
 }
 
 
-bool Coord::isInBounds() {
+bool Coord::isInBounds()
+{
     return row >= 0 && row < 16 && col >= 0 && col < 16; // Board size is 16
 }

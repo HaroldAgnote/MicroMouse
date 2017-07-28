@@ -25,6 +25,12 @@ public:
 
     bool isInBounds();
 
+	bool isNextTo(Coord);
+    bool isAbove(Coord);
+    bool isBelow(Coord);
+    bool isLeftOf(Coord);
+    bool isRightOf(Coord);
+
     bool operator!=(const Coord&) const;
 
     /*Coord& operator=(const Coord &rhs) {

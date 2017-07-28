@@ -2,8 +2,8 @@
 *oooooooooooooo*
 *****o*****o****
 *ooooo*ooooo**o*
-*o***o*******oo*
-*oo**oooooooooo*
+*o***o********o*
+*o***oooooooooo*
 *oo**o****o*****
 *****o*gg*ooooo*
 *ooooo*gg*****o*

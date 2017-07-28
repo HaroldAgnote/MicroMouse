@@ -6,7 +6,10 @@ using namespace std;
 Cell::Cell()
 {
     mVisited = false;
-    mWall = false;
+	mNorth = false;
+	mSouth = false;
+	mWest = false;
+	mEast = false;
 }
 
 Cell::Cell(bool isWall)
@@ -21,12 +24,32 @@ Cell::Cell(bool isVisited, bool isWall)
     mWall = isWall;
 }
 
-bool Cell::isVisited()
+bool Cell::hasNorthWall()
+{
+    return mNorth;
+}
+
+bool Cell::hasSouthWall()
+{
+    return mSouth;
+}
+
+bool Cell::hasEastWall()
+{
+    return mEast;
+}
+
+bool Cell::hasWestWall()
+{
+    return mWest;
+}
+
+bool Cell::isVisited() const
 {
     return mVisited;
 }
 
-bool Cell::isWall()
+bool Cell::isWall() const
 {
     return mWall;
 }
@@ -45,6 +68,27 @@ void Cell::setWall(bool isWall)
 {
     mWall = isWall;
 }
+
+void Cell::setNorthWall(bool boolean)
+{
+    mNorth = boolean;
+}
+
+void Cell::setSouthWall(bool boolean)
+{
+    mSouth = boolean;
+}
+
+void Cell::setEastWall(bool boolean)
+{
+    mEast = boolean;
+}
+
+void Cell::setWestWall(bool boolean)
+{
+    mWest = boolean;
+}
+
 
 void Cell::setDistance(unsigned char distance)
 {

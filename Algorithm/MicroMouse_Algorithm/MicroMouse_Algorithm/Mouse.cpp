@@ -132,7 +132,17 @@ void Mouse::readCell(Coord cellCoord)
 
 void Mouse::readCell(Coord cellCoord, Cell cell)
 {
-	completeMaze.getCell(cellCoord).setWall(cell.isWall());
+    if (cellCoord.GetRow() == mPosition.GetRow())
+    {
+        if (cellCoord.GetCol() < mPosition.GetCol())
+        {
+            completeMaze.getCell(cellCoord).setEastWall(cell.hasEastWall());
+        }
+        else if (cellCoord.GetCol() > mPosition.GetCol())
+        {
+            
+        }
+    }
 }
 
 void Mouse::visitCell()

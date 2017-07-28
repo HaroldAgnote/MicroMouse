@@ -5,6 +5,7 @@
 #include "Queue.h"
 #include "Mouse.h"
 #include "Cell.h"
+#include <string>
 using namespace std;
 
 
@@ -13,35 +14,53 @@ using namespace std;
  */
 Maze::Maze()
 {
-    Initialize();
-}
-
-/*
- * Create maze generated from reading a text file
- */
-Maze::Maze(string fileName)
-{
-    ifstream myFile;
-    myFile.open(fileName);
-    string LINE;
-
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 33; i++)
     {
-        getline(myFile, LINE);
-        for (int j = 0; j < 16; j++)
+        for (int j = 0; j < 81; j++)
         {
-            char c = LINE.at(j);
-            switch (c)
+            cellString[i][j] = ' ';
+            if (i == 0 || i == 32)
             {
-            case '*': cells[i][j].setWall(true);
-                break;
-            case 'o': cells[i][j].setWall(false);
-                break;
-            case 'g': cells[i][j].setWall(false);
-                break;
+                cellString[i][j] = '-';
             }
+            if (i % 2 == 0 && j % 5 == 0)
+            {
+                if (i == 12 && j == 40)
+                {
+                    cellString[i][j] = ' ';
+                }
+                else
+                {
+                    cellString[i][j] = '+';
+                }
+            }
+            if (i % 2 == 1 && (j == 0 || j == 80))
+            {
+                cellString[i][j] = '|';
+            }
+            
+        }
+    }
+    for (int i = 0; i < 16; i++) {
+        for (int j = 0; j < 16; j++) {
             if (i == 0 || i == 15 || j == 0 || j == 15)
             {
+                if (i == 0)
+                {
+                    cells[i][j].setNorthWall(true);
+                }
+                if (i == 15)
+                {
+                    cells[i][j].setSouthWall(true);
+                }
+                if (j == 0)
+                {
+                    cells[i][j].setWestWall(true);
+                }
+                if (j == 15)
+                {
+                    cells[i][j].setEastWall(true);
+                }
                 cells[i][j].setDistance(-1);
             }
             else if ((i == 7 || i == 8) && (j == 7 || j == 8))
@@ -57,7 +76,60 @@ Maze::Maze(string fileName)
             cells[i][j].setVisited(false);
         }
     }
-    myFile.close();
+    CalculateDistance();
+}
+
+Maze::~Maze()
+{
+
+    
+
+}
+
+/*
+ * Create maze generated from reading a text file
+ */
+Maze::Maze(string fileName)
+{
+    ifstream myFile;
+
+    myFile.open(fileName);
+    string LINE;
+    for (int i = 0; i < 33; i++)
+    {
+        getline(myFile, LINE);
+        for (int j = 0; j < LINE.size(); j++)
+        {
+            cellString[i][j] = LINE.at(j);
+        }
+    }
+
+    int f = 1;
+
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 16; j++)
+        {
+            Coord coord(i, j);
+            if (cellString[f - 1][(j * 5) + 2] != ' ')
+            {
+                cells[i][j].setNorthWall(true);
+            }
+            if (cellString[f][j * 5] != ' ')
+            {
+                cells[i][j].setWestWall(true);
+            }
+            if (cellString[f][(j * 5) + 5] != ' ')
+            {
+                cells[i][j].setEastWall(true);
+            }
+            if (cellString[f + 1][(j * 5) + 2] != ' ')
+            {
+                cells[i][j].setSouthWall(true);
+            }
+        }
+        f += 2;
+    }
 }
 
 /*
@@ -165,6 +237,21 @@ void Maze::PrintDistance()
         }
         printf("\n");
     }
+}
+
+void Maze::printMaze(Coord mousePosition)
+{
+    system("cls");
+    
+    for (int i = 0; i < 33; i++)
+    {
+        for (int j = 0; j < 81; j++)
+        {
+            cout << cellString[i][j];
+        }
+        printf("\n");
+    }
+    printf("\n");
 }
 
 void Maze::PrintVisited(Coord mousePosition)

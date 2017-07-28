@@ -12,11 +12,12 @@ class Maze
 {
 private:
     Cell cells[16][16];
-
+    char cellString[33][81];
 
 public:
     Maze();
     Maze(string);
+    ~Maze();
 
     void Initialize();
 
@@ -27,6 +28,7 @@ public:
     int CalculateMinimum(int, int, int, int);
 
     void PrintDistance();
+    void printMaze(Coord);
     void PrintVisited(Coord);
 };
 

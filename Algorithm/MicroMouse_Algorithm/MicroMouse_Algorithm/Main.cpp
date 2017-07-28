@@ -1,10 +1,6 @@
 #include <iostream>
 #include "Maze.h"
 #include "Mouse.h"
-#include "Cell.h"
-#include <queue>
-#include <stack>
-#include <chrono>
 #include <thread>
 
 using namespace std;
@@ -29,4 +25,3 @@ int main()
     system("pause");
     return 0;
 }
-

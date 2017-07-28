@@ -69,13 +69,27 @@ void Maze::Initialize()
         for (int j = 0; j < 16; j++) {
             if (i == 0 || i == 15 || j == 0 || j == 15)
             {
-                cells[i][j].setWall(true);
+                if (i == 0)
+                {
+					cells[i][j].setNorthWall(true);
+                }
+				if (i == 15)
+				{
+					cells[i][j].setSouthWall(true);
+				}
+				if (j == 0)
+				{
+					cells[i][j].setEastWall(true);
+				}
+				if (j == 15)
+				{
+					cells[i][j].setWestWall(true);
+				}
                 cells[i][j].setDistance(-1);
             }
             else if ((i == 7 || i == 8) && (j == 7 || j == 8))
             {
                 // Center of maze.
-                cells[i][j].setWall(false);
                 cells[i][j].setDistance(0);
             }
             else
@@ -86,7 +100,6 @@ void Maze::Initialize()
             cells[i][j].setVisited(false);
         }
     }
-    cells[15][1].setWall(false);
     CalculateDistance();
 }
 

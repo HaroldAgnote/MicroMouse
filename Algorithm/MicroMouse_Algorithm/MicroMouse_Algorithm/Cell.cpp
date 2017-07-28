@@ -6,7 +6,10 @@ using namespace std;
 Cell::Cell()
 {
     mVisited = false;
-    mWall = false;
+	mNorth = false;
+	mSouth = false;
+	mWest = false;
+	mEast = false;
 }
 
 Cell::Cell(bool isWall)

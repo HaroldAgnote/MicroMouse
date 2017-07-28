@@ -32,9 +32,11 @@ int main()
 {
     Coord start(15, 0);
 
-    Maze maze;
+    Maze maze("Maze3.txt");
+    Mouse mouse;
+    mouse.floodFill(maze);
 
-    maze.printMaze(start);
+    printf("Flood Fill Complete!");
 
     system("pause");
     return 0;

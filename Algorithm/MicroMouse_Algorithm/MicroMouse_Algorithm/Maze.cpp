@@ -25,7 +25,7 @@ Maze::Maze()
             }
             if (i % 2 == 0 && j % 5 == 0)
             {
-                if (i == 12 && j == 40)
+                if (i == 16 && j == 40)
                 {
                     cellString[i][j] = ' ';
                 }
@@ -133,55 +133,61 @@ Maze::Maze(string fileName)
 }
 
 /*
-* Create empty maze
-*/
-void Maze::Initialize()
-{
-    for (int i = 0; i < 16; i++) {
-        for (int j = 0; j < 16; j++) {
-            if (i == 0 || i == 15 || j == 0 || j == 15)
-            {
-                if (i == 0)
-                {
-					cells[i][j].setNorthWall(true);
-                }
-				if (i == 15)
-				{
-					cells[i][j].setSouthWall(true);
-				}
-				if (j == 0)
-				{
-					cells[i][j].setEastWall(true);
-				}
-				if (j == 15)
-				{
-					cells[i][j].setWestWall(true);
-				}
-                cells[i][j].setDistance(-1);
-            }
-            else if ((i == 7 || i == 8) && (j == 7 || j == 8))
-            {
-                // Center of maze.
-                cells[i][j].setDistance(0);
-            }
-            else
-            {
-                // Other areas of maze.
-                cells[i][j].setDistance(-1);
-            }
-            cells[i][j].setVisited(false);
-        }
-    }
-    CalculateDistance();
-}
-
-/*
  * Get a Cell given a set of coordinates
  */
 Cell & Maze::getCell(Coord cellCoord)
 {
     return cells[cellCoord.GetRow()][cellCoord.GetCol()];
 }
+
+
+void Maze::markCellVisited(Coord cellCoord)
+{
+    int cellString_Row = (cellCoord.GetRow() * 2) + 1;
+    int cellString_Col = (cellCoord.GetCol() * 5) + 2;
+
+    cellString[cellString_Row][cellString_Col + 0] = '*';
+    cellString[cellString_Row][cellString_Col + 1] = '*';
+}
+
+void Maze::markCellNorthWall(Coord cellCoord)
+{
+    int cellString_Row = (cellCoord.GetRow() * 2) + 1;
+    int cellString_Col = (cellCoord.GetCol() * 5) + 2;
+
+    cellString[cellString_Row + 1][cellString_Col - 1] = '-';
+    cellString[cellString_Row + 1][cellString_Col + 0] = '-';
+    cellString[cellString_Row + 1][cellString_Col + 1] = '-';
+    cellString[cellString_Row + 1][cellString_Col + 2] = '-';
+}
+
+void Maze::markCellSouthWall(Coord cellCoord)
+{
+    int cellString_Row = (cellCoord.GetRow() * 2) + 1;
+    int cellString_Col = (cellCoord.GetCol() * 5) + 2;
+
+    cellString[cellString_Row - 1][cellString_Col - 1] = '-';
+    cellString[cellString_Row - 1][cellString_Col + 0] = '-';
+    cellString[cellString_Row - 1][cellString_Col + 1] = '-';
+    cellString[cellString_Row - 1][cellString_Col + 2] = '-';
+}
+
+void Maze::markCellWestWall(Coord cellCoord)
+{
+    int cellString_Row = (cellCoord.GetRow() * 2) + 1;
+    int cellString_Col = (cellCoord.GetCol() * 5) + 2;
+
+    cellString[cellString_Row][cellString_Col - 2] = '|';
+}
+
+void Maze::markCellEastWall(Coord cellCoord)
+{
+    int cellString_Row = (cellCoord.GetRow() * 2) + 1;
+    int cellString_Col = (cellCoord.GetCol() * 5) + 2;
+
+    cellString[cellString_Row][cellString_Col + 3] = '|';
+}
+
 
 
 void Maze::CalculateDistance()
@@ -243,11 +249,21 @@ void Maze::printMaze(Coord mousePosition)
 {
     system("cls");
     
+    int cellString_Row = (mousePosition.GetRow() * 2) + 1;
+    int cellString_Col = (mousePosition.GetCol() * 5) + 2;
+
     for (int i = 0; i < 33; i++)
     {
         for (int j = 0; j < 81; j++)
         {
-            cout << cellString[i][j];
+            if (i == cellString_Row && (j == cellString_Col || j == cellString_Col + 1))
+            {
+                printf("M");
+            }
+            else
+            {
+                cout << cellString[i][j];
+            }
         }
         printf("\n");
     }

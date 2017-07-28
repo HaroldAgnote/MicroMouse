@@ -5,21 +5,22 @@
 #include <thread>
 
 
-Mouse::Mouse() : mBoardSize(16), mPosition(15, 1)
+Mouse::Mouse() : mBoardSize(16), mPosition(15, 0)
 {
 
 }
 
-Mouse::Mouse(string fileName) : mBoardSize(16), mPosition(15, 1), completeMaze(fileName)
+Mouse::Mouse(string fileName) : mBoardSize(16), mPosition(15, 0), completeMaze(fileName)
 {
     
 }
 
-Mouse::Mouse(unsigned char boardSize) : mBoardSize(boardSize), mPosition{ { 15 },{ 1 } } {
+Mouse::Mouse(unsigned char boardSize) : mBoardSize(boardSize), mPosition{ { 15 },{ 0 } } {
 
 }
 
-const Coord Mouse::getPosition() {
+const Coord Mouse::getPosition()
+{
     return mPosition;
 }
 
@@ -137,17 +138,49 @@ void Mouse::readCell(Coord cellCoord, Cell cell)
         if (cellCoord.GetCol() < mPosition.GetCol())
         {
             completeMaze.getCell(cellCoord).setEastWall(cell.hasEastWall());
+            completeMaze.getCell(mPosition).setWestWall(cell.hasEastWall());
+            if (cell.hasEastWall())
+            {
+                completeMaze.markCellEastWall(cellCoord);
+            }
         }
         else if (cellCoord.GetCol() > mPosition.GetCol())
         {
-            
+            completeMaze.getCell(cellCoord).setWestWall(cell.hasWestWall());
+            completeMaze.getCell(mPosition).setEastWall(cell.hasWestWall());
+            if (cell.hasWestWall())
+            {
+                completeMaze.markCellWestWall(cellCoord);
+            }
+        }
+    }
+    else if (cellCoord.GetCol() == mPosition.GetCol())
+    {
+        if (cellCoord.GetRow() < mPosition.GetRow())
+        {
+            completeMaze.getCell(cellCoord).setSouthWall(cell.hasSouthWall());
+            completeMaze.getCell(mPosition).setNorthWall(cell.hasSouthWall());
+            if (cell.hasSouthWall())
+            {
+                completeMaze.markCellSouthWall(mPosition);
+            }
+        }
+        else if (cellCoord.GetRow() > mPosition.GetRow())
+        {
+            completeMaze.getCell(cellCoord).setNorthWall(cell.hasNorthWall());
+            completeMaze.getCell(mPosition).setSouthWall(cell.hasNorthWall());
+            if (cell.hasNorthWall())
+            {
+                completeMaze.markCellNorthWall(mPosition);
+            }
         }
     }
 }
 
 void Mouse::visitCell()
 {
-	completeMaze.getCell(mPosition).setVisited(1);
+	completeMaze.getCell(mPosition).setVisited(true);
+    completeMaze.markCellVisited(mPosition);
 }
 
 
@@ -158,11 +191,11 @@ void Mouse::floodFill()
 
 void Mouse::floodFill(Maze maze)
 {
-	long DELAY = 500;
+	long DELAY = 10;
 
 	bool valid = false;
 
-	Coord current, start(15, 1);
+	Coord current, start(15, 0);
 	Cell currentCell;
 
 	stack <Coord> cellsToCheck;
@@ -202,8 +235,9 @@ void Mouse::floodFill(Maze maze)
 					previousCells.pop();
 				}
 			}
-			completeMaze.PrintVisited(mPosition);
-			system("pause");
+			completeMaze.printMaze(mPosition);
+            this_thread::sleep_for(chrono::milliseconds(DELAY));
+			//system("pause");
 		}
 
 		// Mark cell as visited
@@ -214,7 +248,7 @@ void Mouse::floodFill(Maze maze)
 		while (!neighbors.empty())
 		{
 			// Add neighbors as next cells to check
-
+            Coord next = neighbors.top();
 			cellsToCheck.push(neighbors.top());
 			neighbors.pop();
 		}
@@ -222,8 +256,9 @@ void Mouse::floodFill(Maze maze)
 		// Mark current position as last cell visited by Mouse
 		previousCells.push(current);
 
-		completeMaze.PrintVisited(mPosition);
-		system("pause");
+        completeMaze.printMaze(mPosition);
+        this_thread::sleep_for(chrono::milliseconds(DELAY));
+		//system("pause");
 	} while (!cellsToCheck.empty());
 }
 
@@ -251,20 +286,45 @@ stack <Coord> Mouse::getNeighbors(Maze maze)
 	neighbors.push(right);
 	neighbors.push(up);
 
+    
 	while (!neighbors.empty())
 	{
 		Coord currentNeighbor = neighbors.top();
 		neighbors.pop();
-		if (!completeMaze.getCell(currentNeighbor).isVisited())
+		if (currentNeighbor.isInBounds() && !completeMaze.getCell(currentNeighbor).isVisited())
 		{
 			Cell cell = maze.getCell(currentNeighbor);
 			readCell(currentNeighbor, cell);
-			if (!completeMaze.getCell(currentNeighbor).isWall())
+
+			if (mPosition.isAbove(currentNeighbor))
 			{
-				validNeighbors.push(currentNeighbor);
+			    if (!cell.hasNorthWall())
+			    {
+			        validNeighbors.push(currentNeighbor);
+			    }
 			}
+            if (mPosition.isBelow(currentNeighbor))
+            {
+                if (!cell.hasSouthWall())
+                {
+                    validNeighbors.push(currentNeighbor);
+                }
+            }
+            if (mPosition.isLeftOf(currentNeighbor))
+            {
+                if (!cell.hasWestWall())
+                {
+                    validNeighbors.push(currentNeighbor);
+                }
+            }
+            if (mPosition.isRightOf(currentNeighbor))
+            {
+                if (!cell.hasEastWall())
+                {
+                    validNeighbors.push(currentNeighbor);
+                }
+            }
 		}
 	}
-
 	return validNeighbors;
 }

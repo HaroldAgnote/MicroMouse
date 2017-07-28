@@ -71,3 +71,28 @@ bool Coord::isNextTo(Coord coord)
 	}
 	return false;
 }
+
+bool Coord::isAbove(Coord coord)
+{
+    return row == (coord.row - 1);
+}
+
+bool Coord::isBelow(Coord coord)
+{
+    return row == (coord.row + 1);
+}
+
+bool Coord::isLeftOf(Coord coord)
+{
+    return col == (coord.col - 1);
+}
+
+bool Coord::isRightOf(Coord coord)
+{
+    return col == (coord.col + 1);
+
+}
+
+
+
+

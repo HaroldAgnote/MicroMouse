@@ -19,9 +19,13 @@ public:
     Maze(string);
     ~Maze();
 
-    void Initialize();
-
     Cell & getCell(Coord);
+    
+    void markCellVisited(Coord);
+    void markCellNorthWall(Coord);
+    void markCellSouthWall(Coord);
+    void markCellWestWall(Coord);
+    void markCellEastWall(Coord);
 
     void CalculateDistance();
     int CalculateManhattanDistance(int, int, int, int);

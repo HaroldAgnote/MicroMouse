@@ -5,6 +5,7 @@
 
 #include "Maze.h"
 #include "Cell.h"
+#include <stack>
 
 
 class Mouse {
@@ -21,27 +22,39 @@ private:
 	 */
     Coord mPosition;
 
-    bool InBounds(Coord);
-    bool InBounds(unsigned char, unsigned char);
-    void SetUpMaze();
+    bool isInBounds(Coord);
+    bool isInBounds(unsigned char, unsigned char);
+
+	void moveUp();
+	void moveDown();
+	void moveLeft();
+	void moveRight();
 
 public:
     Mouse();
     Mouse(string);
     Mouse(unsigned char);
     
-    const Coord GetPosition();
-    Maze * GetMaze();
+    const Coord getPosition();
+    Maze * getMaze();
 
     bool isNextTo(Coord);
 
-    void SetPosition(unsigned char, unsigned char);
-    void MoveToCell(Coord);
-    void MoveUp();
-    void MoveDown();
-    void MoveLeft();
-    void MoveRight();
-    void ReadCell(Coord, Cell);
+	void setPosition(unsigned char, unsigned char);
+
+	void floodFill();
+	void floodFill(Maze);
+
+	void moveToCell(Coord);
+
+	void readCell(Coord);
+    void readCell(Coord, Cell);
+
+	void visitCell();
+
+
+	stack <Coord> getNeighbors();
+	stack <Coord> getNeighbors(Maze);
 };
 
 #endif

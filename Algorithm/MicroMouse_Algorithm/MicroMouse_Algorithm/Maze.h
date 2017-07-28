@@ -20,7 +20,7 @@ public:
 
     void Initialize();
 
-    Cell * getCell(Coord);
+    Cell & getCell(Coord);
 
     void CalculateDistance();
     int CalculateManhattanDistance(int, int, int, int);

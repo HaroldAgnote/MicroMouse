@@ -21,12 +21,12 @@ Cell::Cell(bool isVisited, bool isWall)
     mWall = isWall;
 }
 
-bool Cell::isVisited()
+bool Cell::isVisited() const
 {
     return mVisited;
 }
 
-bool Cell::isWall()
+bool Cell::isWall() const
 {
     return mWall;
 }

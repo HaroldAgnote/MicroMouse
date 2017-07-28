@@ -7,6 +7,7 @@
 #include "Cell.h"
 using namespace std;
 
+
 /*
  * Create empty maze
  */
@@ -59,6 +60,9 @@ Maze::Maze(string fileName)
     myFile.close();
 }
 
+/*
+* Create empty maze
+*/
 void Maze::Initialize()
 {
     for (int i = 0; i < 16; i++) {
@@ -89,9 +93,9 @@ void Maze::Initialize()
 /*
  * Get a Cell given a set of coordinates
  */
-Cell * Maze::getCell(Coord cellCoord)
+Cell & Maze::getCell(Coord cellCoord)
 {
-    return &cells[cellCoord.GetRow()][cellCoord.GetCol()];
+    return cells[cellCoord.GetRow()][cellCoord.GetCol()];
 }
 
 
@@ -158,7 +162,7 @@ void Maze::PrintVisited(Coord mousePosition)
             if (i == mousePosition.GetRow() && j == mousePosition.GetCol())
             {
 				// Print mouse position
-                printf("M ");
+                printf("+ ");
             }
             else if (cells[i][j].isVisited())
 			{
@@ -173,7 +177,7 @@ void Maze::PrintVisited(Coord mousePosition)
             else
             {
 				// Print unvisited/unexplored square
-                printf("N ");
+                printf("O ");
             }
         }
         printf("\n");

@@ -58,3 +58,16 @@ bool Coord::isInBounds()
 {
     return row >= 0 && row < 16 && col >= 0 && col < 16; // Board size is 16
 }
+
+bool Coord::isNextTo(Coord coord)
+{
+	if (row == coord.row)
+	{
+		return (coord.col == (col + 1) || coord.col == (col - 1));
+	}
+	if (col == coord.col)
+	{
+		return (coord.row == (row + 1) || coord.row == (row - 1));
+	}
+	return false;
+}

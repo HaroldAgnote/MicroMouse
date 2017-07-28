@@ -15,8 +15,8 @@ public:
     Cell(bool, bool);
 
 
-    bool isVisited();
-    bool isWall();
+    bool isVisited() const;
+    bool isWall() const;
     unsigned char getDistance();
 
 

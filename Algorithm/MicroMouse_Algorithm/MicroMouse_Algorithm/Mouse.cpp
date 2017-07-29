@@ -193,7 +193,7 @@ void Mouse::floodFill(Maze maze)
 				}
 			}
 			completeMaze.PrintVisited(mPosition);
-			system("pause");
+			this_thread::sleep_for(chrono::milliseconds(DELAY));
 		}
 
 		// Mark cell as visited
@@ -213,7 +213,7 @@ void Mouse::floodFill(Maze maze)
 		previousCells.push(current);
 
 		completeMaze.PrintVisited(mPosition);
-		system("pause");
+		this_thread::sleep_for(chrono::milliseconds(DELAY));
 	} while (!cellsToCheck.empty());
 }
 

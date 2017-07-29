@@ -1,5 +1,5 @@
-To run go to directory:
+To run Software Test, go to directory:
 
-MicroMouse_Algorithm/Debug
+Algorithm/SoftwareTest/MicroMouse_Algorithm/
 
 and run 'MicroMouse_Algorithm.exe'

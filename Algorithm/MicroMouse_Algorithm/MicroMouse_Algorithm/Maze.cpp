@@ -10,7 +10,7 @@ using namespace std;
 
 
 /*
- * Create empty maze
+ * Create empty Maze
  */
 Maze::Maze()
 {
@@ -87,15 +87,8 @@ Maze::Maze()
     CalculateDistance();
 }
 
-Maze::~Maze()
-{
-
-    
-
-}
-
 /*
- * Create maze generated from reading a text file
+ * Create Maze generated from reading a text file
  */
 Maze::Maze(string fileName)
 {
@@ -118,7 +111,6 @@ Maze::Maze(string fileName)
             }
         }
     }
-
 
     int f = 1;
 
@@ -150,13 +142,26 @@ Maze::Maze(string fileName)
 }
 
 /*
- * Get a Cell given a set of coordinates
+ * Destructor
+ */
+Maze::~Maze()
+{
+
+
+
+}
+
+/*
+ * Get a Cell given a set of Coordinates
  */
 Cell & Maze::getCell(Coord cellCoord)
 {
     return cells[cellCoord.GetRow()][cellCoord.GetCol()];
 }
 
+/*
+ * Returns true if all Cells in the Maze have been explored
+ */
 bool Maze::isFloodFilled()
 {
     for (int i = 0; i < 16; i++)
@@ -172,7 +177,9 @@ bool Maze::isFloodFilled()
     return true;
 }
 
-
+/*
+ * Modifies String representation of Maze to mark as a Visited Cell
+ */
 void Maze::markCellVisited(Coord cellCoord)
 {
     int cellString_Row = (cellCoord.GetRow() * 2) + 1;
@@ -182,6 +189,9 @@ void Maze::markCellVisited(Coord cellCoord)
     cellString[cellString_Row][cellString_Col + 1] = '*';
 }
 
+/*
+ * Modifies String representation of Maze to mark a North Wall on a given coordinates of a Cell
+ */
 void Maze::markCellNorthWall(Coord cellCoord)
 {
     int cellString_Row = (cellCoord.GetRow() * 2) + 1;
@@ -193,6 +203,9 @@ void Maze::markCellNorthWall(Coord cellCoord)
     cellString[cellString_Row - 1][cellString_Col + 2] = '-';
 }
 
+/*
+ * Modifies String representation of Maze to mark a South Wall on a given coordinates of a Cell
+ */
 void Maze::markCellSouthWall(Coord cellCoord)
 {
     int cellString_Row = (cellCoord.GetRow() * 2) + 1;
@@ -204,6 +217,9 @@ void Maze::markCellSouthWall(Coord cellCoord)
     cellString[cellString_Row + 1][cellString_Col + 2] = '-';
 }
 
+/*
+* Modifies String representation of Maze to mark a West Wall on a given coordinates of a Cell
+*/
 void Maze::markCellWestWall(Coord cellCoord)
 {
     int cellString_Row = (cellCoord.GetRow() * 2) + 1;
@@ -212,6 +228,9 @@ void Maze::markCellWestWall(Coord cellCoord)
     cellString[cellString_Row][cellString_Col - 2] = '|';
 }
 
+/*
+* Modifies String representation of Maze to mark a East Wall on a given coordinates of a Cell
+*/
 void Maze::markCellEastWall(Coord cellCoord)
 {
     int cellString_Row = (cellCoord.GetRow() * 2) + 1;
@@ -220,6 +239,9 @@ void Maze::markCellEastWall(Coord cellCoord)
     cellString[cellString_Row][cellString_Col + 3] = '|';
 }
 
+/*
+ * Resets String representation of Maze such that all Cells are unexplored
+ */
 void Maze::resetMaze()
 {
     for (int i = 0; i < 33; i++)
@@ -246,7 +268,13 @@ void Maze::resetMaze()
             {
                 cellString[i][j] = '|';
             }
-
+            if (i == 15 || i == 17)
+            {
+                if (j == 38 || j == 42)
+                {
+                    cellString[i][j] = 'G';
+                }
+            }
         }
     }
 }
@@ -307,6 +335,9 @@ void Maze::PrintDistance()
     }
 }
 
+/*
+ * Print String Representation of Maze
+ */
 void Maze::printMaze(Coord mousePosition)
 {
     system("cls");
@@ -373,35 +404,4 @@ void Maze::printMaze(Coord mousePosition)
         printf("\n");
     }
     printf("\n");
-}
-
-void Maze::PrintVisited(Coord mousePosition)
-{
-    printf("\n- - - - - - - - - - - - - - - -\n");
-    for (int i = 0; i < 16; i++) {
-        for (int j = 0; j < 16; j++) {
-            if (i == mousePosition.GetRow() && j == mousePosition.GetCol())
-            {
-				// Print mouse position
-                printf("+ ");
-            }
-            else if (cells[i][j].isVisited())
-			{
-				// Print a visited cell
-                printf("* ");
-            }
-            else if (cells[i][j].isWall())
-            {
-				// Print a Wall
-                printf("W ");
-            }
-            else
-            {
-				// Print unvisited/unexplored square
-                printf("O ");
-            }
-        }
-        printf("\n");
-    }
-    printf("- - - - - - - - - - - - - - - -\n");
 }

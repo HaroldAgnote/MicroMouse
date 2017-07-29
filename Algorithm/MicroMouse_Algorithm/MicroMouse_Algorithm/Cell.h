@@ -2,28 +2,54 @@
 #define CELL_H
 #include "Coord.h"
 
+/*
+ * Representation of a Cell that resides in a Maze
+ */
+
 class Cell
 {
 
 private:
+    /*
+     * Indicator representing if the Cell has been visited
+     */
+    bool mVisited;
+    
+    /*
+     * Indicator representing if the Cell has a North Wall
+     */
+	bool mNorthWall;
 
+    /*
+     * Indicator representing if the Cell has a South Wall
+     */
+	bool mSouthWall;
+
+    /*
+     * Indicator representing if the Cell has an East Wall
+     */
+	bool mEastWall;
+
+    /*
+     * Indicator representing if the Cell has a West Wall
+     */
+	bool mWestWall;
+
+    /*
+     * The Coordinates of where the Cell Resides
+     */
     Coord cellCoord;
 
-    bool mVisited;
-    bool mWall;
-	bool mNorth;
-	bool mSouth;
-	bool mEast;
-	bool mWest;
+    /*
+     * Distance of this Cell to the Center of the Maze
+     */
     unsigned char mDistance;
 
 public:
     Cell();
     Cell(Coord);
 
-
     bool isVisited() const;
-    bool isWall() const;
 
 	bool hasNorthWall();
 	bool hasSouthWall();
@@ -34,18 +60,18 @@ public:
 
     unsigned char getDistance();
 
+    void setVisited(bool);
+
+    void setNorthWall(bool);
+    void setSouthWall(bool);
+    void setWestWall(bool);
+    void setEastWall(bool);
+    
     void setCoordinates(Coord);
 
-    void setVisited(bool);
-    
-	void setNorthWall(bool);
-	void setSouthWall(bool);
-	void setWestWall(bool);
-	void setEastWall(bool);
+    void setDistance(unsigned char);
 
     bool isAccessibleTo(Cell);
-
-    void setDistance(unsigned char);
 };
 
 #endif

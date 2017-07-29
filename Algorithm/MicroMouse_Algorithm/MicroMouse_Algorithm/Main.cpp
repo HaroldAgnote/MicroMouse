@@ -4,38 +4,44 @@
 #include <thread>
 #include <filesystem>
 
-namespace fs = std::experimental::filesystem;
-
 using namespace std;
 
-int chooseFile();
+int menu();
+bool promptFloodFill();
+void runMaze(string, bool);
+void runAllMazes(bool);
 
-void runMaze(string);
-
-static string files[] = { "Maze-1.txt", "Maze-2.txt", "Maze-3.txt", "Maze-4.txt", "Maze-5.txt" };
-
+// List of files to read
+static string files[] = { "Maze-1.txt", "Maze-2.txt", "Maze-3.txt", "Maze-4.txt", "Maze-5.txt", "Maze-6.txt" };
+// Number of files
 static int numOfFiles = sizeof(files) / sizeof(files[0]);
 
 int main()
 {
     bool done = false;
-
+    bool floodFill;
     do
     {
-        int choice = chooseFile();
+        int choice = menu();
+        
+        if (choice < numOfFiles + 2)
+        {
+            floodFill = promptFloodFill();
+        }
+
         if (choice < numOfFiles + 1)
         {
-            runMaze(files[choice - 1]);
+            // Read a chosen maze
+            runMaze(files[choice - 1], floodFill);
         }
         else if (choice == numOfFiles + 1)
         {
-            for (int i = 0; i < numOfFiles; i++)
-            {
-                runMaze(files[i]);
-            }
+            // Read all mazes
+            runAllMazes(floodFill);
         }
         else
         {
+            // Exit
             done = true;
         }
         
@@ -45,7 +51,10 @@ int main()
     return 0;
 }
 
-int chooseFile()
+/*
+ * Prompts user to choose an action (Read maze, read all mazes, quit)
+ */
+int menu()
 {
     for (int i = 0; i < numOfFiles; i++)
     {
@@ -61,20 +70,60 @@ int chooseFile()
     return choice;
 }
 
-void runMaze(string fileName)
+/*
+ * Prompt user to specify if they'd like to view the Flood Fill Process
+ */
+bool promptFloodFill()
+{
+    cout << "View Flood Fill? (Y/N)" << endl;
+
+    bool valid = false;
+    char a;
+
+    while (!valid)
+    {
+        cin >> a;
+        cout << endl;
+        if (a == 'y' || a == 'Y')
+        {
+            return true;
+        }
+        if (a == 'n' || a == 'N')
+        {
+            return false;
+        }
+    }
+
+}
+
+/*
+ * Run a specified maze 
+ */
+void runMaze(string fileName, bool viewFloodFill)
 {
     Coord start(15, 0);
 
     Maze maze(fileName);
     Mouse mouse;
 
+    bool solvable = false;
+
+    // Preview maze to user
     maze.printMaze(start);
     system("pause");
-    mouse.floodFill(maze);
+    
+    mouse.floodFill(maze, viewFloodFill);
 
-    if (mouse.getMaze()->isFloodFilled())
+    solvable = mouse.getMaze()->isFloodFilled();
+
+    if (solvable)
     {
         printf("Flood Fill Complete!\n");
+        if (viewFloodFill)
+        {
+            system("pause");
+        }
+        mouse.solveMaze();
     }
     else
     {
@@ -82,9 +131,15 @@ void runMaze(string fileName)
     }
 
     system("pause");
+}
 
-
-    mouse.solveMaze();
-
-    system("pause");
+/*
+ * Run all mazes 
+ */
+void runAllMazes(bool viewFloodFill)
+{
+    for (int i = 0; i < numOfFiles; i++)
+    {
+        runMaze(files[i], viewFloodFill);
+    }
 }

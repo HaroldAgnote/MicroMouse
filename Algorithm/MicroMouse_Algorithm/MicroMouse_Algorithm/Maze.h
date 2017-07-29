@@ -3,15 +3,24 @@
 
 #include <string>
 #include "Cell.h"
+#include "Coord.h"
 
 using namespace std;
 
-class Coord;
-
+/*
+ * Representation of a Maze
+ */
 class Maze
 {
 private:
+    /*
+     * 16 x 16 grid of the Maze
+     */
     Cell cells[16][16];
+
+    /*
+     * String representation of the Maze
+     */
     char cellString[33][81];
 
 public:
@@ -19,9 +28,9 @@ public:
     Maze(string);
     ~Maze();
 
-    bool isFloodFilled();
-
     Cell & getCell(Coord);
+    
+    bool isFloodFilled();
     
     void markCellVisited(Coord);
     void markCellNorthWall(Coord);
@@ -37,7 +46,6 @@ public:
 
     void PrintDistance();
     void printMaze(Coord);
-    void PrintVisited(Coord);
 };
 
 #endif

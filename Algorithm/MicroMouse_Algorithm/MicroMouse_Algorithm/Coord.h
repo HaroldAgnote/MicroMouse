@@ -1,10 +1,20 @@
 #ifndef COORD_H
 #define COORD_H
 
-class Coord {
-
+/*
+ * Representation of a Set of Coordinates (x, y) within a Maze
+ */
+class Coord
+{
 private:
+    /*
+     * The row of the Coordinate (x)
+     */
     unsigned char row;
+
+    /*
+     * The columns of the Coordinate (y)
+     */
     unsigned char col;
 
 public:
@@ -13,31 +23,29 @@ public:
 
     ~Coord();
 
-    void SetRow(unsigned char);
-    void SetCol(unsigned char);
     unsigned char GetRow() const;
     unsigned char GetCol() const;
 
-    bool MoveUp();
-    bool MoveDown();
-    bool MoveLeft();
-    bool MoveRight();
+    void SetRow(unsigned char);
+    void SetCol(unsigned char);
 
     bool isInBounds();
 
-	bool isNextTo(Coord);
+    bool isNextTo(Coord);
+
     bool isAbove(Coord);
     bool isBelow(Coord);
     bool isLeftOf(Coord);
     bool isRightOf(Coord);
 
+    void MoveUp();
+    void MoveDown();
+    void MoveLeft();
+    void MoveRight();
+
     bool operator==(const Coord &) const;
     bool operator!=(const Coord&) const;
 
-    /*Coord& operator=(const Coord &rhs) {
-    row = rhs.row;
-    col = rhs.col;
-    }*/
 };
 
 #endif

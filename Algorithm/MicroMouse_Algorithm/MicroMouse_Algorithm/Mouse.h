@@ -7,14 +7,27 @@
 #include "Cell.h"
 #include <stack>
 
-
-class Mouse {
-
-    // Representation of a mouse in lieu of the real thing.
+/*
+ *  Representation of a mouse in lieu of the real thing.
+ */
+class Mouse
+{
 
 private:
-    Maze completeMaze; // Internal representation of the maze
+
+    /*
+     * Representation of a mouse in lieu of the real thing.
+     */
+    Maze completeMaze;
+    
+    /*
+     * Coordinates from the goal of the maze to the starting position
+     */
     stack <Coord> solution;
+
+    /*
+     * Size of the board
+     */
     unsigned char mBoardSize;
 
 	/*
@@ -35,7 +48,6 @@ private:
 public:
     Mouse();
     Mouse(string);
-    Mouse(unsigned char);
     
     const Coord getPosition();
     Maze * getMaze();
@@ -43,12 +55,14 @@ public:
     bool isNextTo(Coord);
 
 	void setPosition(unsigned char, unsigned char);
+    void setPosition(Coord);
+    void resetPosition();
 
 	void floodFill();
-	void floodFill(Maze);
+    void floodFill(Maze);
+	void floodFill(Maze, bool);
 
     void solveMaze();
-    void findSolution();
 
 	void moveToCell(Coord);
 

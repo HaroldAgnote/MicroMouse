@@ -144,6 +144,26 @@ void Mouse::moveRight() {
 	mPosition.MoveRight();
 }
 
+void Mouse::readCell()
+{
+    if (completeMaze.getCell(mPosition).hasNorthWall())
+    {
+        completeMaze.markCellNorthWall(mPosition);
+    }
+    if (completeMaze.getCell(mPosition).hasSouthWall())
+    {
+        completeMaze.markCellSouthWall(mPosition);
+    }
+    if (completeMaze.getCell(mPosition).hasEastWall())
+    {
+        completeMaze.markCellEastWall(mPosition);
+    }
+    if (completeMaze.getCell(mPosition).hasWestWall())
+    {
+        completeMaze.markCellWestWall(mPosition);
+    }
+}
+
 void Mouse::readCell(Coord cellCoord)
 {
 	// Hardware code to check if cell is wall
@@ -182,7 +202,7 @@ void Mouse::readCell(Coord cellCoord, Cell cell)
             completeMaze.getCell(mPosition).setNorthWall(cell.hasSouthWall());
             if (cell.hasSouthWall())
             {
-                completeMaze.markCellSouthWall(mPosition);
+                completeMaze.markCellSouthWall(cellCoord);
             }
         }
         else if (cellCoord.GetRow() > mPosition.GetRow())
@@ -191,7 +211,7 @@ void Mouse::readCell(Coord cellCoord, Cell cell)
             completeMaze.getCell(mPosition).setSouthWall(cell.hasNorthWall());
             if (cell.hasNorthWall())
             {
-                completeMaze.markCellNorthWall(mPosition);
+                completeMaze.markCellNorthWall(cellCoord);
             }
         }
     }
@@ -216,6 +236,8 @@ void Mouse::floodFill(Maze maze)
 	Coord current, start(15, 0);
 	Cell currentCell;
 
+    bool trackSolution = true;
+
 	stack <Coord> cellsToCheck;
 	stack <Coord> previousCells;
 
@@ -228,6 +250,11 @@ void Mouse::floodFill(Maze maze)
 		{
 			return;
 		}
+
+        if (isInGoal())
+        {
+            trackSolution = false;
+        }
 
 		// Get the next cell to explore
 		current = cellsToCheck.top();
@@ -252,10 +279,18 @@ void Mouse::floodFill(Maze maze)
 				if (!prev.isNextTo(current))
 				{
 					previousCells.pop();
+                    if (trackSolution)
+                    {
+                        solution.pop();
+                    }
 				}
                 if (prev.isNextTo(current) && !completeMaze.getCell(prev).isAccessibleTo(currentCell))
                 {
                     previousCells.pop();
+                    if (trackSolution)
+                    {
+                        solution.pop();
+                    }
                 }
 			}
 			completeMaze.printMaze(mPosition);
@@ -279,6 +314,11 @@ void Mouse::floodFill(Maze maze)
 		// Mark current position as last cell visited by Mouse
 		previousCells.push(current);
 
+        if (trackSolution)
+        {
+            solution.push(current);
+        }
+
         completeMaze.printMaze(mPosition);
         this_thread::sleep_for(chrono::milliseconds(DELAY));
 		//system("pause");
@@ -297,9 +337,35 @@ bool Mouse::isInGoal()
     return false;
 }
 
+
 void Mouse::solveMaze()
 {
-    
+    long DELAY = 5;
+
+    stack <Coord> solutionCopy = solution;
+    stack <Coord> course;
+
+    while (!solutionCopy.empty())
+    {
+        Coord next = solutionCopy.top();
+        course.push(next);
+        solutionCopy.pop();
+    }
+
+    setPosition(15, 0);
+
+    completeMaze.resetMaze();
+
+    while (!course.empty())
+    {
+        Coord next = course.top();
+        course.pop();
+        moveToCell(next);
+        readCell();
+        visitCell();
+        completeMaze.printMaze(mPosition);
+    }
+
 }
 
 

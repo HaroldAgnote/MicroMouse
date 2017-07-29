@@ -29,6 +29,8 @@ public:
     void markCellWestWall(Coord);
     void markCellEastWall(Coord);
 
+    void resetMaze();
+
     void CalculateDistance();
     int CalculateManhattanDistance(int, int, int, int);
     int CalculateMinimum(int, int, int, int);

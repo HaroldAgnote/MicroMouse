@@ -52,6 +52,7 @@ public:
 
 	void moveToCell(Coord);
 
+    void readCell();
 	void readCell(Coord);
     void readCell(Coord, Cell);
 

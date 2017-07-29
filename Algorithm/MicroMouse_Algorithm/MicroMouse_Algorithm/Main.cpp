@@ -82,4 +82,9 @@ void runMaze(string fileName)
     }
 
     system("pause");
+
+
+    mouse.solveMaze();
+
+    system("pause");
 }

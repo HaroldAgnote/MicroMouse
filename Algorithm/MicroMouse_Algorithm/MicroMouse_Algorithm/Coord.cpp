@@ -13,11 +13,11 @@ Coord::~Coord() {
 }
 
 void Coord::SetRow(unsigned char row) {
-    row= row;
+    this->row= row;
 }
 
 void Coord::SetCol(unsigned char col) {
-    col = col;
+    this->col = col;
 }
 
 unsigned char Coord::GetRow() const {

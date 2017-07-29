@@ -38,7 +38,13 @@ Maze::Maze()
             {
                 cellString[i][j] = '|';
             }
-            
+            if (i == 15 || i == 17)
+            {
+                if (j == 38 || j == 42)
+                {
+                    cellString[i][j] = 'G';
+                }
+            }
         }
     }
     for (int i = 0; i < 16; i++) {
@@ -103,8 +109,16 @@ Maze::Maze(string fileName)
         for (int j = 0; j < LINE.size(); j++)
         {
             cellString[i][j] = LINE.at(j);
+            if (i == 15 || i == 17)
+            {
+                if (j == 38 || j == 42)
+                {
+                    cellString[i][j] = 'G';
+                }
+            }
         }
     }
+
 
     int f = 1;
 
@@ -173,10 +187,10 @@ void Maze::markCellNorthWall(Coord cellCoord)
     int cellString_Row = (cellCoord.GetRow() * 2) + 1;
     int cellString_Col = (cellCoord.GetCol() * 5) + 2;
 
-    cellString[cellString_Row + 1][cellString_Col - 1] = '-';
-    cellString[cellString_Row + 1][cellString_Col + 0] = '-';
-    cellString[cellString_Row + 1][cellString_Col + 1] = '-';
-    cellString[cellString_Row + 1][cellString_Col + 2] = '-';
+    cellString[cellString_Row - 1][cellString_Col - 1] = '-';
+    cellString[cellString_Row - 1][cellString_Col + 0] = '-';
+    cellString[cellString_Row - 1][cellString_Col + 1] = '-';
+    cellString[cellString_Row - 1][cellString_Col + 2] = '-';
 }
 
 void Maze::markCellSouthWall(Coord cellCoord)
@@ -184,10 +198,10 @@ void Maze::markCellSouthWall(Coord cellCoord)
     int cellString_Row = (cellCoord.GetRow() * 2) + 1;
     int cellString_Col = (cellCoord.GetCol() * 5) + 2;
 
-    cellString[cellString_Row - 1][cellString_Col - 1] = '-';
-    cellString[cellString_Row - 1][cellString_Col + 0] = '-';
-    cellString[cellString_Row - 1][cellString_Col + 1] = '-';
-    cellString[cellString_Row - 1][cellString_Col + 2] = '-';
+    cellString[cellString_Row + 1][cellString_Col - 1] = '-';
+    cellString[cellString_Row + 1][cellString_Col + 0] = '-';
+    cellString[cellString_Row + 1][cellString_Col + 1] = '-';
+    cellString[cellString_Row + 1][cellString_Col + 2] = '-';
 }
 
 void Maze::markCellWestWall(Coord cellCoord)
@@ -206,6 +220,36 @@ void Maze::markCellEastWall(Coord cellCoord)
     cellString[cellString_Row][cellString_Col + 3] = '|';
 }
 
+void Maze::resetMaze()
+{
+    for (int i = 0; i < 33; i++)
+    {
+        for (int j = 0; j < 81; j++)
+        {
+            cellString[i][j] = ' ';
+            if (i == 0 || i == 32)
+            {
+                cellString[i][j] = '-';
+            }
+            if (i % 2 == 0 && j % 5 == 0)
+            {
+                if (i == 16 && j == 40)
+                {
+                    cellString[i][j] = ' ';
+                }
+                else
+                {
+                    cellString[i][j] = '+';
+                }
+            }
+            if (i % 2 == 1 && (j == 0 || j == 80))
+            {
+                cellString[i][j] = '|';
+            }
+
+        }
+    }
+}
 
 
 void Maze::CalculateDistance()
@@ -316,6 +360,7 @@ void Maze::printMaze(Coord mousePosition)
                         cout << "    ";
                     }
             }
+
             if (i == cellString_Row && (j == cellString_Col || j == cellString_Col + 1))
             {
                 printf("M");

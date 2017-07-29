@@ -103,13 +103,15 @@ void runMaze(string fileName, bool viewFloodFill)
 {
     Coord start(15, 0);
 
-    Maze maze(fileName);
+    string pathToFile = "..\\Mazes\\" + fileName;
+    Maze maze(pathToFile);
     Mouse mouse;
 
     bool solvable = false;
 
     // Preview maze to user
     maze.printMaze(start);
+    cout << "\n" << fileName << "\n" << endl;
     system("pause");
     
     mouse.floodFill(maze, viewFloodFill);

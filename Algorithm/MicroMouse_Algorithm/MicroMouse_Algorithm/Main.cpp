@@ -6,28 +6,6 @@
 
 using namespace std;
 
-/*
-int main()
-{
-    Coord start(15, 1);
-
-    Maze maze("Maze.txt");
-    
-	Mouse mouse;
-
-	//maze.PrintDistance();
-    maze.PrintVisited(start);
-
-    system("pause");
-
-    mouse.floodFill(maze);
-    cout << "Flood Fill Complete!" << endl;
-
-    system("pause");
-    return 0;
-}
-*/
-
 int main()
 {
     Coord start(15, 0);
@@ -39,7 +17,14 @@ int main()
     system("pause");
     mouse.floodFill(maze);
 
-    printf("Flood Fill Complete!");
+    if (mouse.getMaze()->isFloodFilled())
+    {
+        printf("Flood Fill Complete!\n");
+    }
+    else
+    {
+        printf("Flood Fill Fail :( \n");
+    }
 
     system("pause");
     return 0;

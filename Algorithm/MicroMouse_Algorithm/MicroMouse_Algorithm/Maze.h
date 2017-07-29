@@ -19,6 +19,8 @@ public:
     Maze(string);
     ~Maze();
 
+    bool isFloodFilled();
+
     Cell & getCell(Coord);
     
     void markCellVisited(Coord);

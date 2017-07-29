@@ -108,7 +108,7 @@ bool Cell::isAccessibleTo(Cell cell)
     {
         return !cell.hasWestWall();
     }
-    if (cellCoord.isRightOf(cellCoord))
+    if (cellCoord.isRightOf(cell.cellCoord))
     {
         return !cell.hasEastWall();
     }

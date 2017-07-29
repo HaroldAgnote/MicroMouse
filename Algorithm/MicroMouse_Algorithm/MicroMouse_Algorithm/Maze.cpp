@@ -143,6 +143,21 @@ Cell & Maze::getCell(Coord cellCoord)
     return cells[cellCoord.GetRow()][cellCoord.GetCol()];
 }
 
+bool Maze::isFloodFilled()
+{
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 16; j++)
+        {
+            if (!cells[i][j].isVisited())
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 
 void Maze::markCellVisited(Coord cellCoord)
 {

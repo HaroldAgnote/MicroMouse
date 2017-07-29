@@ -76,6 +76,26 @@ bool Mouse::isNextTo(Coord cell)
     return false;
 }
 
+bool Mouse::isAccessibleTo(Cell cell)
+{
+    if (mPosition.isAbove(cell.getCoordinates()))
+    {
+        return !cell.hasNorthWall();
+    }
+    if (mPosition.isBelow(cell.getCoordinates()))
+    {
+        return !cell.hasSouthWall();
+    }
+    if (mPosition.isLeftOf(cell.getCoordinates()))
+    {
+        return !cell.hasWestWall();
+    }
+    if (mPosition.isRightOf(cell.getCoordinates()))
+    {
+        return !cell.hasEastWall();
+    }
+}
+
 void Mouse::moveToCell(Coord cell)
 {
 	if (cell.GetRow() == mPosition.GetRow())
@@ -191,12 +211,14 @@ void Mouse::floodFill()
 
 void Mouse::floodFill(Maze maze)
 {
-	long DELAY = 10;
+	long DELAY = 5;
 
 	bool valid = false;
 
 	Coord current, start(15, 0);
 	Cell currentCell;
+
+    bool validMove;
 
 	stack <Coord> cellsToCheck;
 	stack <Coord> previousCells;
@@ -220,11 +242,13 @@ void Mouse::floodFill(Maze maze)
 		// While loop corrects position of Mouse until it's on the next explored Point
 		while (current != getPosition())
 		{
-			if (isNextTo(current))
-			{
-				// Move Mouse towards next explored point if adjacent
-				moveToCell(current);
-			}
+            validMove = false;
+			// Move Mouse towards next explored point if adjacent
+
+            if (isNextTo(current) && isAccessibleTo(currentCell))
+            {
+                moveToCell(current);
+            }
 			else
 			{
 				// Backtrack mouse to the last cell it visited
@@ -234,6 +258,10 @@ void Mouse::floodFill(Maze maze)
 				{
 					previousCells.pop();
 				}
+                if (prev.isNextTo(current) && !completeMaze.getCell(prev).isAccessibleTo(currentCell))
+                {
+                    previousCells.pop();
+                }
 			}
 			completeMaze.printMaze(mPosition);
             this_thread::sleep_for(chrono::milliseconds(DELAY));

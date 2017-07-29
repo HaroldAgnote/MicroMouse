@@ -24,6 +24,7 @@ private:
 
     bool isInBounds(Coord);
     bool isInBounds(unsigned char, unsigned char);
+    bool isAccessibleTo(Cell);
 
 	void moveUp();
 	void moveDown();

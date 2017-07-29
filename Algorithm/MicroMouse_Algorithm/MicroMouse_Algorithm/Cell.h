@@ -1,10 +1,14 @@
 #ifndef CELL_H
 #define CELL_H
+#include "Coord.h"
 
 class Cell
 {
 
 private:
+
+    Coord cellCoord;
+
     bool mVisited;
     bool mWall;
 	bool mNorth;
@@ -15,8 +19,7 @@ private:
 
 public:
     Cell();
-    Cell(bool);
-    Cell(bool, bool);
+    Cell(Coord);
 
 
     bool isVisited() const;
@@ -27,16 +30,20 @@ public:
 	bool hasEastWall();
 	bool hasWestWall();
 
+    Coord getCoordinates();
+
     unsigned char getDistance();
 
+    void setCoordinates(Coord);
 
     void setVisited(bool);
     
-	void setWall(bool);
 	void setNorthWall(bool);
 	void setSouthWall(bool);
 	void setWestWall(bool);
 	void setEastWall(bool);
+
+    bool isAccessibleTo(Cell);
 
     void setDistance(unsigned char);
 };

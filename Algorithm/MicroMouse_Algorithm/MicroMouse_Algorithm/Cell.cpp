@@ -12,16 +12,14 @@ Cell::Cell()
 	mEast = false;
 }
 
-Cell::Cell(bool isWall)
+Cell::Cell(Coord coord)
 {
+    cellCoord = coord;
     mVisited = false;
-    mWall = isWall;
-}
-
-Cell::Cell(bool isVisited, bool isWall)
-{
-    mVisited = isVisited;
-    mWall = isWall;
+    mNorth = false;
+    mSouth = false;
+    mWest = false;
+    mEast = false;
 }
 
 bool Cell::hasNorthWall()
@@ -54,19 +52,26 @@ bool Cell::isWall() const
     return mWall;
 }
 
+Coord Cell::getCoordinates()
+{
+    return cellCoord;
+}
+
+
 unsigned char Cell::getDistance()
 {
     return mDistance;
 }
 
+void Cell::setCoordinates(Coord coord)
+{
+    cellCoord = coord;
+}
+
+
 void Cell::setVisited(bool isVisited)
 {
     mVisited = isVisited;
-}
-
-void Cell::setWall(bool isWall)
-{
-    mWall = isWall;
 }
 
 void Cell::setNorthWall(bool boolean)
@@ -89,6 +94,25 @@ void Cell::setWestWall(bool boolean)
     mWest = boolean;
 }
 
+bool Cell::isAccessibleTo(Cell cell)
+{
+    if (cellCoord.isAbove(cell.cellCoord))
+    {
+        return !cell.hasNorthWall();
+    }
+    if (cellCoord.isBelow(cell.cellCoord))
+    {
+        return !cell.hasSouthWall();
+    }
+    if (cellCoord.isLeftOf(cell.cellCoord))
+    {
+        return !cell.hasWestWall();
+    }
+    if (cellCoord.isRightOf(cellCoord))
+    {
+        return !cell.hasEastWall();
+    }
+}
 
 void Cell::setDistance(unsigned char distance)
 {

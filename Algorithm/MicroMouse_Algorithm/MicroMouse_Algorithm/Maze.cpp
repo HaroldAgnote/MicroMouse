@@ -73,6 +73,8 @@ Maze::Maze()
                 // Other areas of maze.
                 cells[i][j].setDistance(-1);
             }
+            Coord coord(i, j);
+            cells[i][j].setCoordinates(coord);
             cells[i][j].setVisited(false);
         }
     }
@@ -127,6 +129,7 @@ Maze::Maze(string fileName)
             {
                 cells[i][j].setSouthWall(true);
             }
+            cells[i][j].setCoordinates(coord);
         }
         f += 2;
     }
@@ -252,15 +255,57 @@ void Maze::printMaze(Coord mousePosition)
     int cellString_Row = (mousePosition.GetRow() * 2) + 1;
     int cellString_Col = (mousePosition.GetCol() * 5) + 2;
 
-    for (int i = 0; i < 33; i++)
+    for (int i = -1; i < 33; i++)
     {
-        for (int j = 0; j < 81; j++)
+        for (int j = -1; j < 81; j++)
         {
+            if (i == -1)
+            {
+                if (j >= 0)
+                {
+                    if ((j - 3) % 5 == 0)
+                    {
+                        if (j/5 < 10)
+                        {
+                            cout << " 0";
+                        }
+                        else
+                        {
+                            cout << " ";
+                        }
+                        cout << j/5 << " ";
+                    }
+                }
+                if (j % 5 == 0)
+                {
+                    cout << "|";
+                }
+            }
+            if (j == -1)
+            {
+                    if (i % 2 == 1)
+                    {
+                        cout << " ";
+                        if (i/2 < 10)
+                        {
+                            cout << "0";
+                        }
+                        cout << i / 2 << " ";
+                    }
+                    else if (i > -1)
+                    {
+                        cout << "----";
+                    }
+                    else
+                    {
+                        cout << "    ";
+                    }
+            }
             if (i == cellString_Row && (j == cellString_Col || j == cellString_Col + 1))
             {
                 printf("M");
             }
-            else
+            else if (i > -1 && j > -1)
             {
                 cout << cellString[i][j];
             }

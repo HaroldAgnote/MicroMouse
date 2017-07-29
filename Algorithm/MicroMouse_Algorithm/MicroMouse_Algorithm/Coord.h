@@ -31,6 +31,7 @@ public:
     bool isLeftOf(Coord);
     bool isRightOf(Coord);
 
+    bool operator==(const Coord &) const;
     bool operator!=(const Coord&) const;
 
     /*Coord& operator=(const Coord &rhs) {

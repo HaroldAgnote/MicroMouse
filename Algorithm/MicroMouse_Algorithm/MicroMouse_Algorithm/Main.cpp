@@ -34,6 +34,9 @@ int main()
 
     Maze maze("Maze3.txt");
     Mouse mouse;
+
+    maze.printMaze(start);
+    system("pause");
     mouse.floodFill(maze);
 
     printf("Flood Fill Complete!");

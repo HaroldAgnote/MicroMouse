@@ -48,6 +48,11 @@ bool Coord::MoveRight() {
     return false;
 }
 
+bool Coord::operator ==(const Coord & coord) const
+{
+    return (row == coord.row && col == coord.col);
+}
+
 bool Coord::operator !=(const Coord & coord) const
 {
     return !(row == coord.row && col == coord.col);
@@ -63,11 +68,11 @@ bool Coord::isNextTo(Coord coord)
 {
 	if (row == coord.row)
 	{
-		return (coord.col == (col + 1) || coord.col == (col - 1));
+        return (col == (coord.col + 1)) || (col == (coord.col - 1));
 	}
 	if (col == coord.col)
 	{
-		return (coord.row == (row + 1) || coord.row == (row - 1));
+		return (row == (coord.row + 1)) || (row == (coord.row - 1));
 	}
 	return false;
 }

@@ -14,7 +14,7 @@ class Mouse {
 
 private:
     Maze completeMaze; // Internal representation of the maze
-
+    stack <Coord> solution;
     unsigned char mBoardSize;
 
 	/*
@@ -25,6 +25,7 @@ private:
     bool isInBounds(Coord);
     bool isInBounds(unsigned char, unsigned char);
     bool isAccessibleTo(Cell);
+    bool isInGoal();
 
 	void moveUp();
 	void moveDown();
@@ -45,6 +46,9 @@ public:
 
 	void floodFill();
 	void floodFill(Maze);
+
+    void solveMaze();
+    void findSolution();
 
 	void moveToCell(Coord);
 

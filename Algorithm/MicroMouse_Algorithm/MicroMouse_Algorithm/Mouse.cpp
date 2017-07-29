@@ -213,12 +213,8 @@ void Mouse::floodFill(Maze maze)
 {
 	long DELAY = 5;
 
-	bool valid = false;
-
 	Coord current, start(15, 0);
 	Cell currentCell;
-
-    bool validMove;
 
 	stack <Coord> cellsToCheck;
 	stack <Coord> previousCells;
@@ -242,7 +238,6 @@ void Mouse::floodFill(Maze maze)
 		// While loop corrects position of Mouse until it's on the next explored Point
 		while (current != getPosition())
 		{
-            validMove = false;
 			// Move Mouse towards next explored point if adjacent
 
             if (isNextTo(current) && isAccessibleTo(currentCell))
@@ -289,6 +284,24 @@ void Mouse::floodFill(Maze maze)
 		//system("pause");
 	} while (!cellsToCheck.empty());
 }
+
+bool Mouse::isInGoal()
+{
+    if (mPosition.GetRow() == 7 || mPosition.GetRow() == 8)
+    {
+        if (mPosition.GetCol() == 7 || mPosition.GetCol() == 8)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Mouse::solveMaze()
+{
+    
+}
+
 
 stack <Coord> Mouse::getNeighbors()
 {
